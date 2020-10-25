@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/chatScreen.dart';
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,10 @@ class ChatApp extends StatefulWidget {
 class _ChatAppState extends State<ChatApp> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: ChatScreen(),
+    );
   }
 }
+
+void main() => runApp(MyApp());
