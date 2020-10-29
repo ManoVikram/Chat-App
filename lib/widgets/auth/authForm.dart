@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import '../../pickers/userImagePicker.dart';
 
 class AuthForm extends StatefulWidget {
   final void Function(
     String email,
     String username,
     String password,
+    File userImage,
     bool isLogin,
     BuildContext contxt,
   ) submitFunction;
-
   final bool isLoading;
 
   AuthForm(this.submitFunction, this.isLoading);
@@ -23,6 +27,11 @@ class _AuthFormState extends State<AuthForm> {
   String _userName = "";
   String _userPassword = "";
   bool _isLogin = true;
+  File _userImage;
+
+  void _userPickedImage(File image) {
+    _userImage = image;
+  }
 
   void _trySubmit() {
     print("Hello");
@@ -36,6 +45,16 @@ class _AuthFormState extends State<AuthForm> {
     // Helps in closing the keyboard.
     // Basically, it moves the focus from any field to nothing.
 
+    if (_userImage == null && !_isLogin) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please pick an image."),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
+
     if (isValid) {
       _formKey.currentState.save();
       // '.save()' triggers 'onSaved:' on every 'TextFormField()'
@@ -43,10 +62,14 @@ class _AuthFormState extends State<AuthForm> {
       print(_userName);
       print(_userPassword);
 
+      // 'authScreen.dart' handles all the Form related Firebase interactions.
+
+      // '_userImage' will be null if in Login mode.
       widget.submitFunction(
         _userEmail.trim(),
         _userName.trim(),
         _userPassword.trim(),
+        _userImage,
         _isLogin,
         context,
       );
@@ -75,6 +98,7 @@ class _AuthFormState extends State<AuthForm> {
                 // 'Column()' usually takes as much height as available.
                 // 'mainAxisSize: MainAxisSize.min' makes the Column() take only the required height.
                 children: [
+                  if (!_isLogin) UserImagePicker(_userPickedImage),
                   TextFormField(
                     key: ValueKey("email"),
                     // 'key:' helps in uniquely identifying data.

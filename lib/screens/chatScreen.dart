@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../widgets/chats/messages.dart';
+import '../widgets/chats/newMessage.dart';
+
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,28 +45,20 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: StreamBuilder(
-          stream: Firestore.instance
-              .collection("/chats/j4M9nexdOSou7fzJG92l/messages/")
-              .snapshots(),
-          builder: (context, streamSnapshot) {
-            if (streamSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            final documents = streamSnapshot.data.documents;
-            // print(documents[0].data);
-            return ListView.builder(
-              itemBuilder: (contxt, index) => Container(
-                child: Text(documents[index].data["text"]),
-                padding: EdgeInsets.all(10),
-              ),
-              itemCount: documents.length,
-            );
-          }),
-      floatingActionButton: FloatingActionButton(
+      body: Container(
+        child: Column(
+          children: [
+            Expanded(
+              child: Messages(),
+              // 'Messages()' renders 'ListView'
+              // ListView performs poor in a Column
+              // Thus, 'Messages()' needs to be wrapped inside 'Expanded()'
+            ),
+            NewMessage(),
+          ],
+        ),
+      ),
+      /* floatingActionButton: FloatingActionButton(
         onPressed: () {
           /* Firestore.instance
               .collection("/chats/j4M9nexdOSou7fzJG92l/messages/")
@@ -96,7 +91,7 @@ class ChatScreen extends StatelessWidget {
         child: Icon(
           Icons.add,
         ),
-      ),
+      ), */
     );
   }
 }
