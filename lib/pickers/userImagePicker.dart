@@ -47,28 +47,31 @@ class _UserImagePickerState extends State<UserImagePicker> {
           icon: Icon(Icons.image),
           onPressed: _pickImage,
         ), */
-        DropdownButton(
-          icon: Icon(
-            Icons.image,
-            color: Theme.of(context).buttonColor,
+        Positioned(
+          child: DropdownButton(
+            underline: Container(),
+            icon: Icon(
+              Icons.image,
+              color: Colors.lightBlue[200],
+            ),
+            elevation: 7,
+            items: [
+              DropdownMenuItem(
+                child: Text("Camera"),
+                value: "camera",
+              ),
+              DropdownMenuItem(
+                child: Text("Gallery"),
+                value: "gallery",
+              ),
+            ],
+            onChanged: (value) {
+              if (value == "camera") {
+                _pickImage(true);
+              }
+              _pickImage(false);
+            },
           ),
-          elevation: 7,
-          items: [
-            DropdownMenuItem(
-              child: Text("Camera"),
-              value: "camera",
-            ),
-            DropdownMenuItem(
-              child: Text("Gallery"),
-              value: "gallery",
-            ),
-          ],
-          onChanged: (value) {
-            if (value == "camera") {
-              _pickImage(true);
-            }
-            _pickImage(false);
-          },
         ),
       ],
       alignment: AlignmentDirectional.bottomEnd,

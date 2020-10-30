@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import './screens/chatScreen.dart';
 import './screens/authScreen.dart';
+import './screens/splashScreen.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -43,6 +44,9 @@ class _ChatAppState extends State<ChatApp> {
       body: StreamBuilder(
         // Firebase automatically manages token.
         builder: (contxt, userSnapshot) {
+          if (userSnapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen();
+          }
           if (userSnapshot.hasData) {
             // 'userSnapshot.hasData' checks whether the token is valid.
             return ChatScreen();

@@ -43,6 +43,9 @@ class _NewMessageState extends State<NewMessage> {
             child: TextField(
               // 'TextField' in a 'Row' causes an error as it tries to take up too much space.
               controller: _controller,
+              autocorrect: true,
+              textCapitalization: TextCapitalization.sentences,
+              enableSuggestions: true,
               decoration: InputDecoration(
                 labelText: "Send a message...",
               ),

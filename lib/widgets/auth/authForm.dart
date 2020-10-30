@@ -104,6 +104,9 @@ class _AuthFormState extends State<AuthForm> {
                     // 'key:' helps in uniquely identifying data.
                     // Flutter internally uses it for identification and prevent mis-matches.
                     keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
+                    enableSuggestions: false,
                     decoration: InputDecoration(
                       labelText: "Email",
                     ),
@@ -122,6 +125,9 @@ class _AuthFormState extends State<AuthForm> {
                   if (!_isLogin)
                     TextFormField(
                       key: ValueKey("username"),
+                      autocorrect: true,
+                      textCapitalization: TextCapitalization.words,
+                      enableSuggestions: false,
                       decoration: InputDecoration(
                         labelText: "Username",
                       ),
